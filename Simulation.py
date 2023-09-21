@@ -3,7 +3,8 @@
 Created on Thu May 16 11:29:45 2019
 
 @author: Abhinav_Kulkarni
-MIMO uplink decoding codes
+MIMO uplink detection
+DSGO <=> DN 
 """
 import numpy as np
 import matplotlib as mp
@@ -75,10 +76,6 @@ bit_precision_mp=50
 multiple_frame=100
 M_QAM=np.uint16(16)
 Nframes=1
-
-
-
-
 
 
 mmse_roh=0.01
@@ -235,7 +232,6 @@ def cd_method(y,x,M,K,iterations,clustern,SigmaN2):
     return x_est_cd        
 #######################################################
 
-#SGD based daisy chain method
        
 def sgd_method(y,x,M,K,SNR):   
     x_est_sgd=np.zeros(x.shape,dtype=x.dtype) 
@@ -1163,50 +1159,6 @@ pl.grid(True)
 
 
 
-#pl.plot(admm_i_gauss_ADMM,evm_simulation,'b--o')  
-#pl.title('ADMM-GS:  SNR={}dB   User-Terminals={}    Antenna/UT={}    Clusters={}'.format(SNR,K,MKratio,Max_C))  
-#pl.xlabel('Number of iterations')
-#pl.ylabel('Error Vector Magnitude (EVM)')
-#pl.grid(True)
-#print (calculate_evm(x_est_admm,x))
-
-##################################################################################################
-
-   
-#Extra stuff
-       
-##ZF method
-#invA=np.zeros(A.shape,dtype=A.dtype)
-#invA=np.linalg.inv(A)    
-#for f in range(0,Nframes):
-#invA=np.zeros(A.shape,dtype=A.dtype)
-#invA=np.linalg.inv(A)    
-#    x_est[:,f]=invA @ yMF[:,f]
 #
-#x_est_inv=np.copy(x_est)                
-
-
-#Gauss siedel
-#estimate the initial guess from by x=inverse(A)b. As A is diagonally dominant inverse of A can be obtained by reciprocal of the A. 
-#Aid=np.zeros(A.shape,dtype=A.dtype)
-#np.fill_diagonal(Aid,(1/np.diagonal(A)))
-#n_iter=3
- #number of iteration to perform 
-#try for 1st frame  
-#x_init=Aid @ yMF[:,0]
-#x_init_t=np.copy(x_init)
-#for i in range (n_iter):
-#    for r_scan in range (K):
-#        x_init_t[r_scan]=yMF[r_scan,0]
-#        for c_scan in range (K):
-#            if r_scan!=c_scan:
-#                x_init_t[r_scan]-=(A[r_scan,c_scan] * x_init[c_scan])
-#        #c_scan loop
-#        x_init[r_scan]=(1/A[r_scan,r_scan])*(x_init_t[r_scan])
-
-#err=np.abs(x_est.reshape(-1,1)-x.reshape(-1,1))
-#pl.plot(err,'b')
-
-
 
 
