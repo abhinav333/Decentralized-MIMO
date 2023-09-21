@@ -5,4 +5,5 @@ A. Kulkarni, M. A. Ouameur and D. Massicotte, “Hardware Topologies for Decentr
 
 # File description:
 **Simulation.py**: Python implementation for simulating Symbol error rate of decentralized MIMO uplink detection techniques.
+
 **HLS**: C++ source files of Vivado HLS implementation.
