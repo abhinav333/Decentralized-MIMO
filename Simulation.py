@@ -106,12 +106,6 @@ def simulate_receive_signal(x,SNR,scale,H):
     return y        
      
 x_est=np.zeros(x.shape,dtype=x.dtype)  
-########################################################   
-##ADMM-gauss siedel
-
-i_gauss_ADMM=np.uint16(6) #number of iterations
-
-#ZF method
 
 i_gauss_ADMM=np.uint16(6) #number of iterations
 
@@ -188,9 +182,6 @@ def admm_method(y,x,M,K,i_gauss_ADMM,Max_C,roh,alpha,betta,SigmaN2):
 #Decentralized Coordinate-Descent Data Detection
 #and Precoding for Massive MU-MIMO
 #Kaipeng Li1, Oscar Casta˜neda2, Charles Jeon3, Joseph R. Cavallaro1, and Christoph Studer2
-#1Department of Electrical and Computer Engineering, Rice University, Houston, TX
-#2School of Electrical and Computer Engineering, Cornell University, Ithaca, NY
-#3Intel Labs, Hillsboro, OR
         
 #calculating for single frame
 #Note M=B; K=U
@@ -537,7 +528,6 @@ def factor_calculation(beta,phi1,phi2,N0): #z is a symbol s0 distributed equally
 
 
 
-
 def amp_method_fd(y,x,M,K,iterations,clustern,SigmaN2):
                     #per user transmit energy from user terminal
     N0=SigmaN2  #noise variance
@@ -607,7 +597,6 @@ def amp_method_fd(y,x,M,K,iterations,clustern,SigmaN2):
  
         x_est_amp_fd[:,f]= x_est_lo      #Assumed the variance of each cluster is same, so factor (1/clustern)
     return x_est_amp_fd        
-
 
 
 def amp_method_fd_work(y,x,M,K,iterations,clustern,SigmaN2):
@@ -993,47 +982,6 @@ def dsgo_method_star_sqn(y,x,M,K,H,iteration,clusters):
     return x_est_sgd_final
 
 
-
-
-#smyerr_simulation_admm=np.zeros(15)
-#smyerr_simulation_cd=np.zeros(15)
-#smyerr_simulation_admm_cl16=np.zeros(15)
-#smyerr_simulation_cd_cl16=np.zeros(15)             simu
-#time_admm=np.zeros(5)
-#time_admm=np.zeros(u_iter.size)
-#symerr_admm=np.zeros(u_iter.size) 
-#sinr_admm=np.zeros(u_iter.size)
-#time_cd=np.zeros(u_iter.size)
-#symerr_cd=np.zeros(u_iter.size) 
-#sinr_cd=np.zeros(u_iter.size)
-#time_sgd=np.zeros(u_iter.size)
-#symerr_sgd=np.zeros(u_iter.size) 
-#sinr_sgd=np.zeros(u_iter.size)
-
-
-#time_sgd_i=np.zeros(u_iter.size)
-#symerr_sgd_i=np.zeros(u_iter.size) 
-#sinr_sgd_i=np.zeros(u_iter.size)
-#
-#y=simulate_receive_signal(x,10)
-#for i in range(u_iter.size):
-#    print(u_iter[i])
-##    start_time=t.time()
-##    x_est=admm_method(y,M,K,u_iter[i],cluster_number,roh,alpha,betta,calculate_SigmaN2(SNR))
-##    time_admm[i]=(t.time()-start_time)/Nframes
-##    symerr_admm[i]=calculate_symbol_error_rate(QAM_var*x_est.flatten(),data.flatten(),calculate_SigmaN2(SNR))
-##    sinr_admm[i]=calculate_SINR_AVG(x_est,x)
-##    start_time=t.time()
-##    x_est=cd_method(y,M,K,u_iter[i],cluster_number,calculate_SigmaN2(SNR))
-##    time_cd[i]=(t.time()-start_time)/Nframes
-##    symerr_cd[i]=calculate_symbol_error_rate(QAM_var*x_est.flatten(),data.flatten())
-##    sinr_cd[i]=calculate_SINR_AVG(x_est,x) 
-#    x_est=sgd_method(y,M,K,u_iter[i]/10)
-##    time_sgd_i[i]=(t.time()-start_time)/Nframes
-#    symerr_sgd_i[i]=calculate_symbol_error_rate(QAM_var*x_est.flatten(),data.flatten())
-##    sinr_sgd_i[i]=calculate_SINR_AVG(x_est,x)
-
-
 snr_iter=np.arange(-5,30,2)
 
 time_admm_r1=np.zeros(snr_iter.size)
@@ -1063,7 +1011,6 @@ symerr_all=np.zeros((5,10,snr_iter.size))
 scale=np.sqrt(cluster_number)
 
 for K in range(8,10,2):
-    #print('U={}'.format(K))
     H=np.random.normal(loc=0, scale=1, size=(M,K*2)).view(np.complex128)/np.sqrt(2*M)
     A=np.transpose(np.conjugate(H)) @ H   #zero forcing
     mmse_roh=0.01
@@ -1102,8 +1049,6 @@ for K in range(8,10,2):
             symerr_amp_pd[i]+=calculate_symbol_error_rate(x[2]*x_est.flatten(),x[1].flatten())
             x_est=ep_method(y,x[0],M,K,set_iteration,cluster_number,calculate_SigmaN2(snr_iter[i]))
             symerr_ep[i]+=calculate_symbol_error_rate(x[2]*x_est.flatten(),x[1].flatten())
-#            x_est=mmse_method(y,x[0],A,calculate_SigmaN2(snr_iter[i]))
-#            symerr_mmse[i]+=calculate_symbol_error_rate(x[2]*x_est.flatten(),x[1].flatten())
             x_est=zf_method(y,x[0],A)
             symerr_zf[i]+=calculate_symbol_error_rate(x[2]*x_est.flatten(),x[1].flatten())
         symerr_admm_r3[i]=symerr_admm_r3[i]/d_size  
@@ -1127,13 +1072,13 @@ for K in range(8,10,2):
 pl.semilogy(snr_iter,symerr_admm_r3,'r-x',label='ADMM Iter={}'.format(set_iteration))
 pl.semilogy(snr_iter,symerr_cd,'b-s',label='CD Iter={}'.format(set_iteration))
 pl.semilogy(snr_iter,symerr_sgd,'m-^',label='SGD')
-pl.semilogy(snr_iter,symerr_bsgd,'g-o',label='DO Iter={}'.format(set_iteration))
-pl.semilogy(snr_iter,symerr_bsgd1,'y--p',label='DSO fp Iter={}'.format(set_iteration))
+pl.semilogy(snr_iter,symerr_bsgd,'g-o',label='DSGO Iter={}'.format(set_iteration))
+pl.semilogy(snr_iter,symerr_bsgd1,'y--p',label='DSGO fp Iter={}'.format(set_iteration))
 pl.semilogy(snr_iter,symerr_amp_fd,'c--p',label='LAMA-FD'.format(set_iteration))
 pl.semilogy(snr_iter,symerr_amp_pd,'c--^',label='LAMA-PD'.format(set_iteration))
 pl.semilogy(snr_iter,symerr_ep,'y--o',label='EP'.format(set_iteration))
 pl.semilogy(snr_iter,symerr_zf,'k-*',label='ZF',alpha=0.7)
-#pl.semilogy(snr_iter,symerr_mmse,'y-s',label='MMSE',alpha=0.2)
+
 
 
 pl.title('Symbol error rate: U={} B={} C={} QAM={}'.format(K,M,cluster_number,M_QAM))  
@@ -1141,14 +1086,6 @@ pl.xlabel('SNR')
 pl.ylabel('Symbol error rate')
 pl.legend()
 
-
-""" 
-pl.plot(QAM_var*(x_est.flatten().real),QAM_var*(x_est.flatten().imag),'bo')
-pl.plot(QAM_map.real,QAM_map.imag,'ro')
-pl.title('Co-ordinate descent: SNR={}dB u-parameter={}')  
-pl.xlabel('Real Axis')
-pl.ylabel('Imaginary Axis')
-"""
 
 
 pl.grid(True)
@@ -1158,7 +1095,5 @@ pl.grid(True)
 
 
 
-
-#
 
 
