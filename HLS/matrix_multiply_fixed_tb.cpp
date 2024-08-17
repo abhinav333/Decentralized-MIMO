@@ -41,15 +41,6 @@
 void DESIGN_TOP(MATRIX_T A [A_ROWS_F][A_COLS_F],
                 MATRIX_T B [B_ROWS_F][B_COLS_F],
                       MATRIX_T C [C_ROWS_F][C_COLS_F]){
-/*void sqn_ring_cluster_flatten_system_gen(MATRIX_T cluster_mat1[K][ANTENNA_PER_CLUSTER],
-						MATRIX_T cluster_mat2[K][K],
-						MATRIX_T yc[ANTENNA_PER_CLUSTER][1],
-						MA
-						TRIX_T data_path1_in[K][1],
-						MATRIX_T data_path2_in[K][1],
-						MATRIX_T data_path1_out[K][1],
-						MATRIX_T data_path2_out[K][1],
-						int clust_number)*/
 }
 
 int main (void){
@@ -67,26 +58,7 @@ int main (void){
   MATRIX_T data_path1_out[K][1];
   MATRIX_T data_path2_out[K][1];
   int clust_number=0;
-  // A content, simple count
-  /*int cnt=1;
-  for (int i=0;i<A_ROWS;i++)
-    for (int k=0;k<A_COLS;k++) {
-      A[i][k].real(cnt);
-      A[i][k].imag(cnt);
-      cnt++;
-    }
-  
-  // Create identity for B
-  for (int i=0;i<B_ROWS;i++)
-    for (int j=0;j<B_COLS;j++)
-      if (i==j)
-        B[i][j] = 1;
-      else
-        B[i][j] = 0;
-      
-  for (int i=0;i<10;i++)
-    DESIGN_TOP(A, B, C);*/
-
+ 
   A[0][0]=1.0;A[0][1]=0;A[0][2]=0;
   A[1][0]=2.0;A[1][1]=1.0;A[1][2]=0;
   A[2][0]=3.0;A[2][1]=4.0;A[2][2]=1.0;
@@ -178,12 +150,6 @@ int main (void){
 
 
   printf("\nMatrix inversion status %d",cholesky_sucess);
-  // Generate error ratio and compare against threshold value
-  // - LAPACK error measurement method
-  // - Threshold taken from LAPACK test functions
-//  if ( difference_ratio<A_ROWS, A_COLS>(A,C) > 30.0 ) {
-//    return(1);
-//  }
   return(0);
 }
 
