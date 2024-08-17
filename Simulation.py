@@ -177,14 +177,7 @@ def admm_method(y,x,M,K,i_gauss_ADMM,Max_C,roh,alpha,betta,SigmaN2):
             w[:,0]=0
     return x_est_admm
 
-####################################################
-   
-#Decentralized Coordinate-Descent Data Detection
-#and Precoding for Massive MU-MIMO
-#Kaipeng Li1, Oscar Casta˜neda2, Charles Jeon3, Joseph R. Cavallaro1, and Christoph Studer2
-        
-#calculating for single frame
-#Note M=B; K=U
+
 def cd_method(y,x,M,K,iterations,clustern,SigmaN2):
     x_est_cd=np.zeros(x.shape,dtype=x.dtype)
     muc=np.zeros((K,clustern),dtype=A.dtype)    #these are the constants
@@ -221,7 +214,6 @@ def cd_method(y,x,M,K,iterations,clustern,SigmaN2):
         #centralized processing  
         x_est_cd[:,f]=(1/clustern)*np.sum(x_cluster,axis=1)       #Assumed the variance of each cluster is same, so factor (1/clustern)
     return x_est_cd        
-#######################################################
 
        
 def sgd_method(y,x,M,K,SNR):   
@@ -244,8 +236,6 @@ def sgd_method(y,x,M,K,SNR):
         x_est_sgd[:,f]=np.sum(x_est_partial,axis=1)
         x_est_partial[:]=0
     return x_est_sgd
-##################################################################################
-
 
 
 def f_gradient_local(Hc,x,yc): #computes gradient based on the current estimate of x
@@ -669,10 +659,6 @@ def amp_method_fd_work(y,x,M,K,iterations,clustern,SigmaN2):
  
         x_est_amp_fd[:,f]= x_est_lo      #Assumed the variance of each cluster is same, so factor (1/clustern)
     return x_est_amp_fd        
-
-
-
-
 
 
 def amp_method_pd(y,x,M,K,iterations,clustern,SigmaN2):
